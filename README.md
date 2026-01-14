@@ -36,8 +36,8 @@ chmod +x init.sh
 Compile and run with:
 
 ```
-chmod +x run.sh
-./run.sh 4A
+chmod +x comp.sh
+./comp.sh 4A
 ```
 
 ## Command Breakdown
