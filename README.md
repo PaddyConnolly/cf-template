@@ -24,6 +24,15 @@ rustc --edition=2024 -O -C link-args=/STACK:268435456 --cfg ONLINE_JUDGE solutio
 rustc --edition=2024 -O -C link-arg=-Wl,-stack_size,0x10000000 --cfg ONLINE_JUDGE solution.rs
 
 ```
+## File Creation
+
+To create file `a.rs` in directory 4:
+
+```
+chmod +x init.sh
+./init.sh 4A
+```
+
 ## Command Breakdown
 
 - `--edition=2024`: Enables the latest Rust features.
