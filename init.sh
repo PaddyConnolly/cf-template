@@ -1,36 +1,34 @@
 #!/bin/bash
 
-# Check if an argument was provided
-if [ -z "$1" ]; then
-  echo "Usage: ./init.sh <ProblemID> (e.g., ./init.sh 4A)"
+# Usage: ./init.sh <rating> <problem_id>
+# Example: ./init.sh 800 4a
+
+RATING=$1
+PROBLEM=$2
+
+if [ -z "$RATING" ] || [ -z "$PROBLEM" ]; then
+  echo "Usage: ./init.sh <rating> <problem_id> (e.g., ./init.sh 800 4a)"
   exit 1
 fi
 
-# Extract digits (Directory) and letters (File)
-# 4A -> dir: 4, file: a
-dir_name=$(echo "$1" | grep -oE '[0-9]+')
-file_name=$(echo "$1" | grep -oE '[a-zA-Z]+' | tr '[:upper:]' '[:lower:]')
+# 1. Define the directory (e.g., 800s)
+TARGET_DIR="${RATING}s"
 
-# Check if extraction was successful
-if [ -z "$dir_name" ] || [ -z "$file_name" ]; then
-  echo "Error: Invalid format. Use something like '4A' or '123C'."
-  exit 1
-fi
+# 2. Normalize file name to lowercase (4A -> 4a.rs)
+FILE_NAME=$(echo "$PROBLEM" | tr '[:upper:]' '[:lower:]')
+TARGET_PATH="$TARGET_DIR/$FILE_NAME.rs"
 
-# Define path
-target_dir="$dir_name"
-target_file="$target_dir/$file_name.rs"
+# 3. Create the directory if it doesn't exist
+mkdir -p "$TARGET_DIR"
 
-# 1. Create directory if it doesn't exist
-mkdir -p "$target_dir"
-
-# 2. Copy solution.rs to the new location
+# 4. Copy template (solution.rs) to target
 if [ -f "solution.rs" ]; then
-  cp "solution.rs" "$target_file"
+  # none ensures we don't overwrite if you accidentally run it twice on the same problem
+  cp --update=none "solution.rs" "$TARGET_PATH"
 else
-  echo "Error: solution.rs not found in the current directory."
+  echo "Error: solution.rs template not found!"
   exit 1
 fi
 
-# 3. Open in nvim
-nvim "$target_file"
+# 5. Open in Neovim
+nvim "$TARGET_PATH"

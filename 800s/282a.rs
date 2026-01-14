@@ -93,14 +93,13 @@ impl DSU {
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, out: &mut BufWriter<W>) {
     let t: usize = scan.next();
 
-    for _ in 0..t {
-        let n: usize = scan.next();
-        let a = scan.vec::<i64>(n);
+    let res = (0..t)
+        .filter(|_| scan.next::<String>().contains('+'))
+        .count() as i16;
 
-        let sum: i64 = a.iter().sum();
+    let ans: i16 = res - (t as i16 - res);
 
-        writeln!(out, "{}", sum).ok();
-    }
+    writeln!(out, "{}", ans);
 }
 
 fn main() {

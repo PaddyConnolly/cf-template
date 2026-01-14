@@ -1,56 +1,48 @@
 #!/bin/bash
 
-# Check if argument was provided
-if [ -z "$1" ]; then
-  echo "Usage: ./comp.sh <ProblemID> (e.g., ./comp.sh 4a)"
+# Usage: ./comp.sh 800 4a
+RATING=$1
+PROBLEM=$2
+
+if [ -z "$RATING" ] || [ -z "$PROBLEM" ]; then
+  echo "Usage: ./comp.sh <rating> <problem_id> (e.g., ./comp.sh 800 4a)"
   exit 1
 fi
 
-# Extract directory and filename (4a -> 4/a.rs)
-dir_name=$(echo "$1" | grep -oE '[0-9]+')
-file_letter=$(echo "$1" | grep -oE '[a-zA-Z]+' | tr '[:upper:]' '[:lower:]')
-target_file="$dir_name/$file_letter.rs"
-output_bin="$dir_name/$file_letter"
+# 1. Paths
+TARGET_DIR="${RATING}s"
+FILE_NAME=$(echo "$PROBLEM" | tr '[:upper:]' '[:lower:]')
+TARGET_FILE="$TARGET_DIR/$FILE_NAME.rs"
+OUTPUT_BIN="$TARGET_DIR/$FILE_NAME"
 
-# Check if file exists
-if [ ! -f "$target_file" ]; then
-  echo "Error: $target_file not found."
+# 2. Check if file exists
+if [ ! -f "$TARGET_FILE" ]; then
+  echo "Error: $TARGET_FILE not found."
   exit 1
 fi
 
-# Detect OS and set appropriate flags
+# 3. Detect OS and set flags
 OS_TYPE=$(uname -s)
-
 case "$OS_TYPE" in
-Linux*)
-  # Linux (ELF) stack size flag
-  FLAGS="-C link-arg=-Wl,-z,stack-size=268435456"
-  ;;
-Darwin*)
-  # macOS (Mach-O) stack size flag
-  FLAGS="-C link-arg=-Wl,-stack_size,0x10000000"
-  ;;
-CYGWIN* | MINGW32* | MSYS* | MINGW*)
-  # Windows (PE/COFF) stack size flag
+Linux*) FLAGS="-C link-arg=-Wl,-z,stack-size=268435456" ;;
+Darwin*) FLAGS="-C link-arg=-Wl,-stack_size,0x10000000" ;;
+MINGW*)
   FLAGS="-C link-args=/STACK:268435456"
-  output_bin="$output_bin.exe"
+  OUTPUT_BIN="$OUTPUT_BIN.exe"
   ;;
-*)
-  echo "Unknown OS: $OS_TYPE. Compiling without specific stack flags."
-  FLAGS=""
-  ;;
+*) FLAGS="" ;;
 esac
 
-echo "Compiling $target_file for $OS_TYPE..."
+echo "Compiling $TARGET_FILE..."
 
-# Execute compilation
-rustc --edition=2024 -O $FLAGS --cfg ONLINE_JUDGE "$target_file" -o "$output_bin"
+# 4. Compile with 2024 edition and optimizations
+rustc --edition=2024 -O $FLAGS --cfg ONLINE_JUDGE "$TARGET_FILE" -o "$OUTPUT_BIN"
 
+# 5. Run if successful
 if [ $? -eq 0 ]; then
-  echo "Compilation successful: $output_bin"
   echo "Running..."
   echo "-----------------------------------"
-  "./$output_bin"
+  "./$OUTPUT_BIN"
 else
   echo "Compilation failed."
 fi
