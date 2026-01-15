@@ -11,24 +11,34 @@ if [ -z "$RATING" ] || [ -z "$PROBLEM" ]; then
   exit 1
 fi
 
-# 1. Define the directory (e.g., 800s)
 TARGET_DIR="${RATING}s"
-
-# 2. Normalize file name to lowercase (4A -> 4a.rs)
 FILE_NAME=$(echo "$PROBLEM" | tr '[:upper:]' '[:lower:]')
 TARGET_PATH="$TARGET_DIR/$FILE_NAME.rs"
 
-# 3. Create the directory if it doesn't exist
 mkdir -p "$TARGET_DIR"
 
-# 4. Copy template (solution.rs) to target
 if [ -f "solution.rs" ]; then
-  # none ensures we don't overwrite if you accidentally run it twice on the same problem
   cp --update=none "solution.rs" "$TARGET_PATH"
 else
   echo "Error: solution.rs template not found!"
   exit 1
 fi
 
-# 5. Open in Neovim
+# ---- Cargo.toml bin generation ----
+
+BIN_NAME="$FILE_NAME"
+BIN_PATH="$TARGET_PATH"
+
+# Check if bin already exists
+if ! grep -q "path = \"$BIN_PATH\"" Cargo.toml; then
+  cat >>Cargo.toml <<EOF
+
+[[bin]]
+name = "$BIN_NAME"
+path = "$BIN_PATH"
+EOF
+fi
+
+# ----------------------------------
+
 nvim "$TARGET_PATH"

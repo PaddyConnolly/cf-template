@@ -1,0 +1,46 @@
+[package]
+name = "codeforces"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[[bin]]
+name = "112a"
+path = "800s/112a.rs"
+
+[[bin]]
+name = "158a"
+path = "800s/158a.rs"
+
+[[bin]]
+name = "231a"
+path = "800s/231a.rs"
+
+[[bin]]
+name = "236a"
+path = "800s/236a.rs"
+
+[[bin]]
+name = "263a"
+path = "800s/263a.rs"
+
+[[bin]]
+name = "282a"
+path = "800s/282a.rs"
+
+[[bin]]
+name = "4a"
+path = "800s/4a.rs"
+
+[[bin]]
+name = "50a"
+path = "800s/50a.rs"
+
+[[bin]]
+name = "71a"
+path = "800s/71a.rs"
+
+[[bin]]
+name = "96a"
+path = "800s/96a.rs"

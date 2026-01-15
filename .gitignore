@@ -1,2 +1,7 @@
 800s/*
 !800s/*.rs
+
+
+/src
+/target
+Cargo.lock
