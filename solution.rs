@@ -91,7 +91,9 @@ impl DSU {
 // --- CORE LOGIC ---
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, out: &mut BufWriter<W>) {
-    let t: usize = scan.next();
+    // Solve here
+
+    writeln!(out, "{}", ans);
 }
 
 fn main() {
