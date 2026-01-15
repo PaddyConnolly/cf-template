@@ -92,15 +92,6 @@ impl DSU {
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, out: &mut BufWriter<W>) {
     let t: usize = scan.next();
-
-    for _ in 0..t {
-        let n: usize = scan.next();
-        let a = scan.vec::<i64>(n);
-
-        let sum: i64 = a.iter().sum();
-
-        writeln!(out, "{}", sum).ok();
-    }
 }
 
 fn main() {
