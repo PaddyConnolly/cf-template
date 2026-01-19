@@ -88,6 +88,13 @@ impl DSU {
     }
 }
 
+fn sum_u32<T>(xs: &[T]) -> u32
+where
+    T: Copy + Into<u32>,
+{
+    xs.iter().copied().map(Into::into).sum()
+}
+
 // --- CORE LOGIC ---
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, out: &mut BufWriter<W>) {
