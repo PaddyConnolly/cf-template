@@ -95,6 +95,13 @@ where
     xs.iter().copied().map(Into::into).sum()
 }
 
+fn vec_to_string(v: &[u32]) -> String {
+    v.iter()
+        .map(|x| x.to_string())
+        .collect::<Vec<_>>()
+        .join(" ")
+}
+
 // --- CORE LOGIC ---
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, out: &mut BufWriter<W>) {
