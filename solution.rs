@@ -61,11 +61,11 @@ fn pow_mod(mut base: i64, mut exp: i64, m: i64) -> i64 {
 }
 
 /// Simple Disjoint Set Union (DSU)
-struct DSU {
+struct Dsu {
     parent: Vec<usize>,
 }
 
-impl DSU {
+impl Dsu {
     fn new(n: usize) -> Self {
         Self {
             parent: (0..n).collect(),
