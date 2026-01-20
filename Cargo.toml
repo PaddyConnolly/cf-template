@@ -121,3 +121,7 @@ path = "1000s/230a.rs"
 [[bin]]
 name = "339b"
 path = "1000s/339b.rs"
+
+[[bin]]
+name = "579a"
+path = "1000s/579a.rs"
