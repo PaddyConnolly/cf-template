@@ -4,26 +4,21 @@ set -e
 # Find rating directories matching "*s" and sort numerically
 dirs=$(find . -maxdepth 1 -type d -name "*s" | sed 's|./||' | sort -n)
 
-found_binaries=false
 declare -A counts
 
 for d in $dirs; do
-  # Check for non-.rs files
+  # Remove non-.rs files
   for f in "$d"/*; do
     [ -e "$f" ] || continue
     if [[ ! "$f" =~ \.rs$ ]]; then
-      echo "Error: Found non-.rs file in $d: $(basename "$f")"
-      found_binaries=true
+      echo "Deleting non-.rs file in $d: $(basename "$f")"
+      rm -f -- "$f"
     fi
   done
+
   # Count .rs files
   counts["$d"]=$(ls "$d"/*.rs 2>/dev/null | wc -l)
 done
-
-# Fail if any binaries found
-if [ "$found_binaries" = true ]; then
-  exit 1
-fi
 
 # Build progress text only for dirs with .rs files
 progress=""
