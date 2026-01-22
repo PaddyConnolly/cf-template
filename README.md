@@ -4,7 +4,7 @@
 
 ## Current Progress
 
-10x800s 10x900s 10x1000s 
+10x800s 10x900s 10x1000s 5x1100s 
 
 ## File Creation
 
