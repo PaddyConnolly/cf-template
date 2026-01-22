@@ -25,6 +25,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
+          git add -u
           git diff --quiet || git commit -m "Update progress in README"
           git push || echo "No changes to push"
 
