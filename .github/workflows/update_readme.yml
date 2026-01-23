@@ -2,18 +2,18 @@ name: Update README
 
 on:
   push:
-    paths:
-      - '**/*.rs'
-      - 'README.md'
 
 permissions:
   contents: write
 
 jobs:
   update-readme:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
 
       - name: Run README updater
         run: |
@@ -26,6 +26,6 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
           git add -u
-          git diff --quiet || git commit -m "Update progress in README"
+          git diff --cached --quiet || git commit -m "Update progress in README"
           git push || echo "No changes to push"
 
